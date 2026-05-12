@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skenya Motors — Automotive Management System</title>
+<link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+<!-- ===== APP SHELL ===== -->
+<div id="app" class="visible">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-logo">
+      <div class="topbar-logo-icon">SM</div>
+      <div class="topbar-logo-name">Skenya Motors</div>
+    </div>
+    <div class="topbar-center">
+      <div class="topbar-search">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Search customers, vehicles, jobs... (⌘K)">
+      </div>
+      <button class="branch-switcher" id="branch-switcher">
+        <div class="branch-dot"></div>
+        <span id="branch-name">Kampala Main Branch</span>
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+    <div class="topbar-right">
+      <button class="notif-btn" id="notif-btn" data-tooltip="Notifications">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <div class="notif-badge"></div>
+      </button>
+      <div class="user-avatar" id="topbar-user-avatar" data-tooltip="My Account">AA</div>
+      <span style="font-size:13.5px;font-weight:500;color:var(--c-text-2)" id="topbar-user-name">Brian Ssekiranda</span>
+    </div>
+  </header>
+
+  <!-- NOTIFICATION PANEL -->
+  <div class="notif-panel" id="notif-panel">
+    <div class="notif-panel-header">
+      <div class="notif-panel-title">Notifications</div>
+      <button class="btn btn-ghost btn-sm" onclick="toast('All marked as read')">Mark all read</button>
+    </div>
+    <div id="notif-list"></div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div style="padding:12px 16px;margin-bottom:8px;border-bottom:1px solid var(--c-border)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="user-avatar" style="width:34px;height:34px" id="sidebar-avatar">BS</div>
+        <div>
+          <div style="font-size:13px;font-weight:600" id="sidebar-user-name">Brian Ssekiranda</div>
+          <div style="font-size:11.5px;color:var(--c-text-3)" id="sidebar-user-role">Super Admin</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Overview</div>
+      <div class="nav-item" data-page="dashboard">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item" data-page="reports">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Reports & Analytics
+      </div>
+    </div>
+    
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">CRM</div>
+      <div class="nav-item" data-page="customers">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Customers
+      </div>
+      <div class="nav-item" data-page="vehicles">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v9a2 2 0 01-2 2h-2M9 17a2 2 0 100 4 2 2 0 000-4zM17 17a2 2 0 100 4 2 2 0 000-4z"/></svg>
+        Vehicles
+      </div>
+    </div>
+    
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Operations</div>
+      <div class="nav-item" data-page="workshop">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        Workshop
+        <div class="nav-item-badge amber">3</div>
+      </div>
+      <div class="nav-item" data-page="sales">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.96-1.61L23 6H6"/></svg>
+        Vehicle Sales
+      </div>
+      <div class="nav-item" data-page="parts">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 001 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        Parts & Inventory
+        <div class="nav-item-badge">2</div>
+      </div>
+    </div>
+    
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Finance</div>
+      <div class="nav-item" data-page="billing">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        Billing & Invoices
+      </div>
+      <div class="nav-item" data-page="accounting">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        Accounting
+      </div>
+    </div>
+    
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Administration</div>
+      <div class="nav-item" data-page="employees">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Employees
+      </div>
+      <div class="nav-item" data-page="ai">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        AI Insights
+        <div class="nav-item-badge green">New</div>
+      </div>
+      <div class="nav-item" data-page="settings">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M20 12h2M2 12h2M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41"/></svg>
+        Settings
+      </div>
+    </div>
+    
+    <div style="padding:12px 16px;margin-top:auto;border-top:1px solid var(--c-border)">
+      <button class="btn btn-ghost btn-sm w-100" onclick="toast('Signed out — refresh to restart')" style="justify-content:flex-start;gap:8px">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="page" id="page-dashboard">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Good morning, Brian 👋</div>
+          <div class="page-subtitle">Here's what's happening at Skenya Motors today</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-secondary" onclick="toast('Report exported')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export
+          </button>
+          <button class="btn btn-primary" onclick="openModal('add-job-modal')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Job Card
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--c-accent-soft);color:var(--c-accent)">💰</div>
+          <div class="stat-label">Monthly Revenue</div>
+          <div class="stat-value" style="color:var(--c-accent)">105M</div>
+          <div class="stat-change stat-up">▲ 19% vs last month</div>
+          <div id="spark-revenue" style="margin-top:8px"></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--c-green-soft);color:var(--c-green)">📋</div>
+          <div class="stat-label">Active Jobs</div>
+          <div class="stat-value">18</div>
+          <div class="stat-change stat-up">▲ 6% vs last week</div>
+          <div id="spark-jobs" style="margin-top:8px"></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--c-amber-soft);color:var(--c-amber)">🚛</div>
+          <div class="stat-label">Vehicles in Workshop</div>
+          <div class="stat-value">7</div>
+          <div class="stat-change" style="color:var(--c-text-3)">2 urgent, 3 in-progress</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--c-purple-soft);color:var(--c-purple)">📦</div>
+          <div class="stat-label">Pending Invoices</div>
+          <div class="stat-value" style="color:var(--c-amber)">UGX 21.6M</div>
+          <div class="stat-change stat-down">▼ 2 overdue invoices</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--c-green-soft);color:var(--c-green)">🤝</div>
+          <div class="stat-label">Vehicles Sold (MTD)</div>
+          <div class="stat-value">3</div>
+          <div class="stat-change stat-up">▲ 1 vs last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--c-red-soft);color:var(--c-red)">⚠️</div>
+          <div class="stat-label">Low Stock Items</div>
+          <div class="stat-value" style="color:var(--c-red)">5</div>
+          <div class="stat-change" style="color:var(--c-red)">Requires immediate attention</div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="grid-3-1 mb-24">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Revenue Overview</div>
+              <div class="card-subtitle">Monthly revenue trend (AED '000s)</div>
+            </div>
+            <select class="form-select" style="width:auto;padding:6px 28px 6px 10px;font-size:12px">
+              <option>2024</option>
+              <option>2023</option>
+            </select>
+          </div>
+          <div class="chart-container">
+            <div class="chart-bars" id="revenue-chart"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Quick Actions</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-secondary w-100" style="justify-content:flex-start;gap:10px" onclick="openModal('add-job-modal')">🔧 New Job Card</button>
+            <button class="btn btn-secondary w-100" style="justify-content:flex-start;gap:10px" onclick="openModal('add-customer-modal')">👤 Add Customer</button>
+            <button class="btn btn-secondary w-100" style="justify-content:flex-start;gap:10px" onclick="navigateTo('billing');renderBilling()">📄 Create Invoice</button>
+            <button class="btn btn-secondary w-100" style="justify-content:flex-start;gap:10px" onclick="navigateTo('parts');renderParts()">📦 Check Stock</button>
+            <button class="btn btn-secondary w-100" style="justify-content:flex-start;gap:10px" onclick="toast('Report generated')">📊 Export Report</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row -->
+      <div class="grid-2-1">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Recent Activity</div>
+              <div class="card-subtitle">Live updates from your workshop</div>
+            </div>
+            <button class="btn btn-ghost btn-sm">View all</button>
+          </div>
+          <div id="activity-feed"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="card-title mb-12">Workshop Status</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div>
+                <div class="d-flex align-center gap-8 mb-4">
+                  <span style="font-size:13px">In Progress</span>
+                  <span class="ml-auto fw-600">8</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill progress-amber" style="width:57%"></div></div>
+              </div>
+              <div>
+                <div class="d-flex align-center gap-8 mb-4">
+                  <span style="font-size:13px">Waiting</span>
+                  <span class="ml-auto fw-600">4</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill progress-blue" style="width:29%"></div></div>
+              </div>
+              <div>
+                <div class="d-flex align-center gap-8 mb-4">
+                  <span style="font-size:13px">Completed Today</span>
+                  <span class="ml-auto fw-600">2</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill progress-green" style="width:14%"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="ai-card">
+            <div class="ai-card-label">AI Insight</div>
+            <div class="ai-card-title">Revenue Peak Predicted</div>
+            <div class="ai-card-body">Based on route schedules, next week revenue is projected to exceed UGX 120M — driven by 3 corporate fleet services from Nantongo Transport.</div>
+            <button class="btn btn-sm mt-12" style="background:rgba(255,255,255,0.15);color:white;border:none" onclick="navigateTo('ai');renderAI()">View AI Dashboard →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CUSTOMERS PAGE ===== -->
+    <div class="page" id="page-customers">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Customers</div>
+          <div class="page-subtitle">Manage your customer base and CRM</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-primary" onclick="openModal('add-customer-modal')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Customer
+          </button>
+        </div>
+      </div>
+      
+      <!-- Stats -->
+      <div class="stats-grid mb-24" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card"><div class="stat-label">Total Customers</div><div class="stat-value">6</div></div>
+        <div class="stat-card"><div class="stat-label">VIP / Fleet</div><div class="stat-value" style="color:var(--c-purple)">2</div></div>
+        <div class="stat-card"><div class="stat-label">New This Month</div><div class="stat-value" style="color:var(--c-green)">1</div></div>
+        <div class="stat-card"><div class="stat-label">Total Spent</div><div class="stat-value" style="color:var(--c-accent)">UGX 62M</div></div>
+      </div>
+      
+      <div class="card">
+        <div class="filter-bar">
+          <div class="search-input-wrap">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-input" id="customer-search" placeholder="Search customers...">
+          </div>
+          <select class="form-select" style="width:auto">
+            <option>All Types</option>
+            <option>VIP</option>
+            <option>Regular</option>
+            <option>New</option>
+          </select>
+          <select class="form-select" style="width:auto">
+            <option>All Cities</option>
+            <option>Kampala</option>
+            <option>Jinja</option>
+            <option>Gulu</option>
+            <option>Mbarara</option>
+            <option>Entebbe</option>
+            <option>Mukono</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Contact</th>
+                <th>Type</th>
+                <th>Vehicles</th>
+                <th>Total Spent</th>
+                <th>Last Visit</th>
+                <th>City</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="customers-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== VEHICLES PAGE ===== -->
+    <div class="page" id="page-vehicles">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Vehicle Management</div>
+          <div class="page-subtitle">All registered customer vehicles</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-secondary" onclick="toast('Vehicle exported')">Export</button>
+          <button class="btn btn-primary" onclick="toast('Add vehicle form')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Register Vehicle
+          </button>
+        </div>
+      </div>
+      
+      <div class="stats-grid mb-24" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card"><div class="stat-label">Total Registered</div><div class="stat-value">6</div></div>
+        <div class="stat-card"><div class="stat-label">In Service</div><div class="stat-value" style="color:var(--c-amber)">2</div></div>
+        <div class="stat-card"><div class="stat-label">Ready / Delivered</div><div class="stat-value" style="color:var(--c-green)">3</div></div>
+        <div class="stat-card"><div class="stat-label">Warranty Expiring</div><div class="stat-value" style="color:var(--c-red)">1</div></div>
+      </div>
+      
+      <div class="card">
+        <div class="filter-bar">
+          <div class="search-input-wrap">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-input" placeholder="Search by reg, make, model...">
+          </div>
+          <select class="form-select" style="width:auto">
+            <option>All Statuses</option>
+            <option>In Service</option>
+            <option>Ready</option>
+            <option>Waiting</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Registration</th><th>Vehicle</th><th>Owner</th><th>Mileage</th><th>Status</th><th>Fuel</th><th>Insurance</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="vehicles-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== WORKSHOP PAGE ===== -->
+    <div class="page" id="page-workshop">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Workshop Management</div>
+          <div class="page-subtitle">Real-time job tracking and service management</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-secondary" onclick="toast('Scheduler opened')">📅 Schedule</button>
+          <button class="btn btn-primary" onclick="openModal('add-job-modal')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Job Card
+          </button>
+        </div>
+      </div>
+      
+      <!-- Workshop Stats -->
+      <div class="stats-grid mb-24" style="grid-template-columns:repeat(5,1fr)">
+        <div class="stat-card"><div class="stat-label">Total Jobs</div><div class="stat-value">5</div></div>
+        <div class="stat-card"><div class="stat-label">Waiting</div><div class="stat-value" style="color:var(--c-accent)">2</div></div>
+        <div class="stat-card"><div class="stat-label">In Progress</div><div class="stat-value" style="color:var(--c-amber)">2</div></div>
+        <div class="stat-card"><div class="stat-label">Completed</div><div class="stat-value" style="color:var(--c-green)">1</div></div>
+        <div class="stat-card"><div class="stat-label">Bays Available</div><div class="stat-value">3/6</div></div>
+      </div>
+      
+      <!-- Kanban Board -->
+      <div class="tabs">
+        <div class="tab active" onclick="this.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Kanban Board</div>
+        <div class="tab" onclick="toast('Timeline view coming soon')">Timeline</div>
+        <div class="tab" onclick="toast('List view')">List View</div>
+      </div>
+      
+      <div class="kanban-board">
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title">🕐 Waiting</span>
+            <span class="kanban-count">0</span>
+          </div>
+          <div id="kanban-waiting"></div>
+          <button class="btn btn-ghost btn-sm w-100 mt-8" style="border:1.5px dashed var(--c-border)" onclick="openModal('add-job-modal')">+ Add job</button>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title">⚡ In Progress</span>
+            <span class="kanban-count">0</span>
+          </div>
+          <div id="kanban-inprogress"></div>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title">✅ Completed</span>
+            <span class="kanban-count">0</span>
+          </div>
+          <div id="kanban-completed"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SALES PAGE ===== -->
+    <div class="page" id="page-sales">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Vehicle Sales</div>
+          <div class="page-subtitle">Inventory, quotes, and deal management</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-secondary">Sales Pipeline</button>
+          <button class="btn btn-primary" onclick="toast('Add vehicle to inventory')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Vehicle
+          </button>
+        </div>
+      </div>
+      
+      <div class="stats-grid mb-24" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card"><div class="stat-label">Total Inventory</div><div class="stat-value">6</div></div>
+        <div class="stat-card"><div class="stat-label">Available</div><div class="stat-value" style="color:var(--c-green)">4</div></div>
+        <div class="stat-card"><div class="stat-label">Reserved</div><div class="stat-value" style="color:var(--c-amber)">1</div></div>
+        <div class="stat-card"><div class="stat-label">Sold MTD</div><div class="stat-value" style="color:var(--c-accent)">1</div></div>
+      </div>
+      
+      <div class="filter-bar mb-24">
+        <div class="search-input-wrap">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="search-input" placeholder="Search vehicles...">
+        </div>
+        <select class="form-select" style="width:auto"><option>All Status</option><option>Available</option><option>Reserved</option><option>Sold</option></select>
+        <select class="form-select" style="width:auto"><option>All Conditions</option><option>New</option><option>Used</option><option>Demo</option></select>
+      </div>
+      
+      <div id="sales-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px"></div>
+    </div>
+
+    <!-- ===== PARTS PAGE ===== -->
+    <div class="page" id="page-parts">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Parts & Inventory</div>
+          <div class="page-subtitle">Spare parts stock management and reordering</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-secondary" onclick="toast('Purchase order created')">Purchase Order</button>
+          <button class="btn btn-primary" onclick="toast('Add part form')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Part
+          </button>
+        </div>
+      </div>
+      
+      <div class="stats-grid mb-24" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card"><div class="stat-label">Total SKUs</div><div class="stat-value">10</div></div>
+        <div class="stat-card"><div class="stat-label">Low Stock</div><div class="stat-value" style="color:var(--c-amber)" id="low-stock-count">5</div></div>
+        <div class="stat-card"><div class="stat-label">Inventory Value</div><div class="stat-value" style="color:var(--c-accent)">UGX 48M</div></div>
+        <div class="stat-card"><div class="stat-label">Suppliers</div><div class="stat-value">5</div></div>
+      </div>
+      
+      <div class="card">
+        <div class="filter-bar">
+          <div class="search-input-wrap">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-input" id="parts-search" placeholder="Search parts, SKU...">
+          </div>
+          <select class="form-select" style="width:auto">
+            <option>All Categories</option>
+            <option>Lubricants</option>
+            <option>Filters</option>
+            <option>Brakes</option>
+            <option>Engine</option>
+            <option>Electrical</option>
+          </select>
+          <button class="btn btn-secondary btn-sm" style="color:var(--c-amber)" onclick="toast('Showing low stock only')">⚠️ Low Stock Only</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>SKU</th><th>Part Name</th><th>Supplier</th><th>Location</th><th>Stock</th><th>Price</th><th>Cost</th><th>Actions</th></tr></thead>
+            <tbody id="parts-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== BILLING PAGE ===== -->
+    <div class="page" id="page-billing">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Billing & Invoices</div>
+          <div class="page-subtitle">Invoice management and payment tracking</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-primary" onclick="toast('New invoice created')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Invoice
+          </button>
+        </div>
+      </div>
+      
+      <div class="stats-grid mb-24" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card"><div class="stat-label">Total Invoiced</div><div class="stat-value" style="color:var(--c-accent)">UGX 22.1M</div></div>
+        <div class="stat-card"><div class="stat-label">Collected</div><div class="stat-value" style="color:var(--c-green)">UGX 0.45M</div></div>
+        <div class="stat-card"><div class="stat-label">Outstanding</div><div class="stat-value" style="color:var(--c-amber)">UGX 21.6M</div></div>
+        <div class="stat-card"><div class="stat-label">Overdue</div><div class="stat-value" style="color:var(--c-red)">0</div></div>
+      </div>
+      
+      <div class="card">
+        <div class="filter-bar">
+          <div class="search-input-wrap">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-input" placeholder="Search invoices...">
+          </div>
+          <select class="form-select" style="width:auto"><option>All Status</option><option>Paid</option><option>Pending</option><option>Partial</option><option>Overdue</option></select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Invoice #</th><th>Customer</th><th>Vehicle</th><th>Date</th><th>Due</th><th>Total</th><th>Paid</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="invoices-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ACCOUNTING PAGE ===== -->
+    <div class="page" id="page-accounting">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Accounting</div>
+          <div class="page-subtitle">Financial summary, P&L, and cash flow</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-secondary" onclick="toast('Report downloaded')">Download P&L</button>
+        </div>
+      </div>
+      
+      <div class="stats-grid mb-24" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-value" style="color:var(--c-green)">UGX 831M</div><div class="stat-change stat-up">▲ 19% YoY</div></div>
+        <div class="stat-card"><div class="stat-label">Total Expenses</div><div class="stat-value" style="color:var(--c-red)">UGX 498M</div><div class="stat-change stat-down">▼ 4.1% YoY</div></div>
+        <div class="stat-card"><div class="stat-label">Net Profit</div><div class="stat-value" style="color:var(--c-accent)">UGX 333M</div><div class="stat-change stat-up">▲ 28.5% margin</div></div>
+        <div class="stat-card"><div class="stat-label">Cash Flow</div><div class="stat-value" style="color:var(--c-green)">Positive</div><div class="stat-change" style="color:var(--c-text-3)">UGX +38M this month</div></div>
+      </div>
+      
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Monthly P&L</div></div>
+          <div class="chart-container"><div class="chart-bars" id="acc-chart"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-title mb-16">Expense Breakdown</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            ${[['Staff Salaries','38%','var(--c-accent)'],['Parts & Supplies','28%','var(--c-amber)'],['Overheads','18%','var(--c-purple)'],['Marketing','10%','var(--c-green)'],['Other','6%','var(--c-text-3)']].map(([cat,pct,col]) => `
+              <div>
+                <div class="d-flex align-center gap-8 mb-4">
+                  <span style="font-size:13px">${cat}</span>
+                  <span class="ml-auto fw-600" style="color:${col}">${pct}</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width:${pct};background:${col}"></div></div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+      
+      <div class="card mt-16">
+        <div class="card-title mb-16">Recent Transactions</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Type</th><th style="text-align:right">Amount</th></tr></thead>
+            <tbody>
+              ${[
+                ['2025-01-10','Service Invoice #INV-2501-002','Service Revenue','Income','+ UGX 2,083,000','badge-green'],
+                ['2025-01-10','Spare Parts Purchase - Truck Tyres x10','Inventory','Expense','- UGX 9,500,000','badge-red'],
+                ['2025-01-09','Salary Disbursement - Jan 2025','Payroll','Expense','- UGX 18,400,000','badge-red'],
+                ['2025-01-08','Service Invoice #INV-2501-001','Service Revenue','Income','+ UGX 448,400','badge-green'],
+                ['2025-01-07','UMEME Power Bill - Workshop','Overheads','Expense','- UGX 2,800,000','badge-red'],
+              ].map(([date,desc,cat,type,amt,badge]) => `
+                <tr>
+                  <td class="text-mono" style="font-size:12.5px">${date}</td>
+                  <td class="fw-500">${desc}</td>
+                  <td><span class="chip">${cat}</span></td>
+                  <td><span class="badge ${badge}">${type}</span></td>
+                  <td class="fw-600 text-right ${type==='Income'?'text-green':'text-red'}">${amt}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== REPORTS PAGE ===== -->
+    <div class="page" id="page-reports">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Reports & Analytics</div>
+          <div class="page-subtitle">Business intelligence and performance metrics</div>
+        </div>
+        <div class="page-actions">
+          <select class="form-select" style="width:auto">
+            <option>Last 12 Months</option>
+            <option>Last 6 Months</option>
+            <option>This Month</option>
+          </select>
+          <button class="btn btn-secondary" onclick="toast('Report exported to PDF')">Export PDF</button>
+        </div>
+      </div>
+      
+      <div class="grid-2 mb-16">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Revenue by Month</div></div>
+          <div class="chart-container"><div class="chart-bars" id="reports-chart"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-title mb-16">Top Services</div>
+          ${[['Engine Overhaul','30%','UGX 249M'],['Major Service','26%','UGX 216M'],['Brake Overhaul','20%','UGX 166M'],['Suspension Repair','14%','UGX 116M'],['Minor Service','10%','UGX 83M']].map(([s,p,a]) => `
+            <div class="d-flex align-center gap-12 mb-12">
+              <div style="flex:1">
+                <div class="d-flex align-center gap-8 mb-4"><span style="font-size:13px">${s}</span><span class="ml-auto text-muted" style="font-size:12px">${p}</span></div>
+                <div class="progress-bar"><div class="progress-fill progress-blue" style="width:${p}"></div></div>
+              </div>
+              <div class="fw-600 text-right" style="min-width:70px;font-size:13px">${a}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title mb-12">Customer Analytics</div>
+          ${[['VIP',2,'var(--c-purple)'],['Regular',3,'var(--c-accent)'],['New',1,'var(--c-green)']].map(([type,count,color]) => `
+            <div class="d-flex align-center gap-10 mb-10">
+              <div style="width:10px;height:10px;border-radius:2px;background:${color};flex-shrink:0"></div>
+              <span style="font-size:13.5px;flex:1">${type}</span>
+              <span class="fw-600">${count}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="card">
+          <div class="card-title mb-12">Parts Movement</div>
+          <div class="text-muted text-sm mb-12">Fast-moving parts this month</div>
+          ${[['Engine Oil 15W-40','68 units'],['Fuel Filter (Diesel)','52 units'],['Truck Tyres 11R22.5','28 units'],['Brake Linings Set','18 units']].map(([p,q]) => `
+            <div class="d-flex align-center gap-8 mb-8"><span style="font-size:13px;flex:1">${p}</span><span class="badge badge-blue">${q}</span></div>
+          `).join('')}
+        </div>
+        <div class="card">
+          <div class="card-title mb-12">Branch Performance</div>
+          ${[['Kampala Main','UGX 420M','badge-green'],['Jinja Branch','UGX 198M','badge-blue'],['Mbarara Branch','UGX 142M','badge-amber'],['Gulu Branch','UGX 71M','badge-gray']].map(([b,r,badge]) => `
+            <div class="d-flex align-center gap-8 mb-8">
+              <span style="font-size:12.5px;flex:1">${b}</span>
+              <span class="fw-600" style="font-size:12.5px">${r}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== EMPLOYEES PAGE ===== -->
+    <div class="page" id="page-employees">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Employees</div>
+          <div class="page-subtitle">Staff directory, roles, and performance</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-primary" onclick="toast('Add employee form')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Employee
+          </button>
+        </div>
+      </div>
+      <div id="employees-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px"></div>
+    </div>
+
+    <!-- ===== AI PAGE ===== -->
+    <div class="page" id="page-ai">
+      <div class="page-header">
+        <div>
+          <div class="page-title">AI Insights & Intelligence</div>
+          <div class="page-subtitle">Powered by UAOS Predictive Engine</div>
+        </div>
+        <span class="badge badge-purple" style="font-size:12px;padding:6px 14px">✦ AI Active</span>
+      </div>
+      
+      <div class="grid-3 mb-16">
+        <div class="ai-card">
+          <div class="ai-card-label">Revenue Forecast</div>
+          <div class="ai-card-title">Next Week Projection</div>
+          <div class="ai-score">UGX 128M</div>
+          <div class="ai-card-body">+21% vs this week. Driven by Nantongo Transport fleet service and 2 confirmed engine overhauls.</div>
+        </div>
+        <div class="ai-card" style="background:linear-gradient(135deg,#1a0038,#3d0066)">
+          <div class="ai-card-label">Predictive Maintenance</div>
+          <div class="ai-card-title">4 Trucks Due Soon</div>
+          <div class="ai-score">94%</div>
+          <div class="ai-card-body">Confidence score. UAA 001A (Isuzu FVR) approaching 150,000 km major service threshold based on GPS mileage tracking.</div>
+        </div>
+        <div class="ai-card" style="background:linear-gradient(135deg,#001a38,#003d66)">
+          <div class="ai-card-label">Inventory AI</div>
+          <div class="ai-card-title">Smart Reorder Suggested</div>
+          <div class="ai-score">5 items</div>
+          <div class="ai-card-body">Brake Linings, Coolant, Turbo Kits, Leaf Springs, and Air Filters need restocking before end of month.</div>
+        </div>
+      </div>
+      
+      <div class="grid-2 mb-16">
+        <div class="card">
+          <div class="card-title mb-16">🔮 Predictive Maintenance Alerts</div>
+          ${[
+            { vehicle:'UAA 001A', make:'Isuzu FVR 34', alert:'Major service due at 150,000 km (8,000 km away)', confidence:94, color:'badge-amber' },
+            { vehicle:'UAD 999G', make:'MAN TGS 26.480', alert:'Differential oil change overdue — high load route', confidence:89, color:'badge-red' },
+            { vehicle:'UAC 321E', make:'Scania R500', alert:'Air filter replacement in ~5,000 km', confidence:78, color:'badge-blue' },
+          ].map(a => `
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--c-border)">
+              <div style="font-size:28px">🚛</div>
+              <div style="flex:1">
+                <div class="fw-600">${a.make} <span class="text-mono text-sm text-muted">${a.vehicle}</span></div>
+                <div class="text-sm text-muted mt-2">${a.alert}</div>
+                <div class="d-flex align-center gap-8 mt-6">
+                  <span class="badge ${a.color}">AI Alert</span>
+                  <span class="text-sm text-muted">Confidence: ${a.confidence}%</span>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="toast('Job created for ${a.vehicle}')">Create Job</button>
+            </div>
+          `).join('')}
+        </div>
+        <div class="card">
+          <div class="card-title mb-16">📦 Smart Inventory Suggestions</div>
+          ${[
+            { part:'Brake Linings Set (Truck)', reason:'Stock: 6 · Demand high — 3 brake jobs pending', action:'Order 20 sets', urgency:'Critical' },
+            { part:'Coolant Concentrate', reason:'Stock: 8 · Hot season demand spike expected', action:'Order 100L', urgency:'High' },
+            { part:'Engine Oil 15W-40', reason:'Stock OK but Total Uganda price increase next month', action:'Order 200L', urgency:'Opportunity' },
+          ].map(s => `
+            <div style="padding:12px 0;border-bottom:1px solid var(--c-border)">
+              <div class="fw-600 mb-2">${s.part}</div>
+              <div class="text-sm text-muted mb-6">${s.reason}</div>
+              <div class="d-flex align-center gap-8">
+                <span class="badge ${s.urgency==='Critical'?'badge-red':s.urgency==='High'?'badge-amber':'badge-blue'}">${s.urgency}</span>
+                <button class="btn btn-secondary btn-sm ml-auto" onclick="toast('Purchase order created')">${s.action}</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-title mb-16">💬 AI Business Assistant</div>
+        <div style="background:var(--c-bg);border-radius:10px;padding:16px;min-height:100px;display:flex;flex-direction:column;gap:12px" id="ai-chat-msgs">
+          <div style="display:flex;gap:10px">
+            <div style="width:28px;height:28px;border-radius:8px;background:var(--c-accent);display:grid;place-items:center;color:white;font-size:12px;flex-shrink:0">✦</div>
+            <div style="background:white;border:1px solid var(--c-border);border-radius:10px;padding:10px 14px;font-size:13.5px;max-width:80%">
+              Hello! I'm your UAOS AI assistant. Ask me anything about your business performance, inventory levels, service trends, or customer insights.
+            </div>
+          </div>
+        </div>
+        <div class="d-flex gap-8 mt-12">
+          <input type="text" id="ai-input" class="form-input flex-1" placeholder="Ask me about your business... e.g. 'Which services are most profitable?'">
+          <button class="btn btn-primary" onclick="aiChat()">Ask AI</button>
+        </div>
+        <div class="d-flex gap-8 mt-10 flex-wrap">
+          ${['Top revenue services?','Which fleet customers need follow-up?','Low stock forecast','Revenue this quarter'].map(q => `
+            <button class="chip" style="cursor:pointer" onclick="$('ai-input').value='${q}';aiChat()">${q}</button>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SETTINGS PAGE ===== -->
+    <div class="page" id="page-settings">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Settings</div>
+          <div class="page-subtitle">Configure your UAOS workspace</div>
+        </div>
+      </div>
+      
+      <div class="grid-2-1">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="card-title mb-16">🏢 Company Profile</div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Company Name</label><input class="form-input" value="Skenya Motors Uganda Ltd"></div>
+              <div class="form-group"><label class="form-label">TIN Number</label><input class="form-input" value="1008234567"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Phone</label><input class="form-input" value="+256 701 123 456"></div>
+              <div class="form-group"><label class="form-label">Email</label><input class="form-input" value="info@skenyamotors.ug"></div>
+            </div>
+            <div class="form-group"><label class="form-label">Address</label><input class="form-input" value="Plot 14, Nakawa Industrial Area, Kampala, Uganda"></div>
+            <button class="btn btn-primary btn-sm" onclick="toast('Company profile saved')">Save Changes</button>
+          </div>
+          <div class="card">
+            <div class="card-title mb-16">💰 Tax & Currency</div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Currency</label><select class="form-select"><option>UGX - Ugandan Shilling</option><option>USD - US Dollar</option><option>KES - Kenyan Shilling</option></select></div>
+              <div class="form-group"><label class="form-label">VAT Rate (%)</label><input class="form-input" value="18"></div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="toast('Tax settings saved')">Save</button>
+          </div>
+          <div class="card">
+            <div class="card-title mb-16">🔔 Notification Preferences</div>
+            ${[['Low stock alerts','Notify when parts go below minimum'],['Service reminders','Auto-send service due reminders'],['Payment reminders','Overdue invoice alerts'],['Job completion','Notify customer on completion']].map(([title, desc]) => `
+              <div class="d-flex align-center gap-12" style="padding:10px 0;border-bottom:1px solid var(--c-border)">
+                <div class="flex-1">
+                  <div class="fw-500 text-sm">${title}</div>
+                  <div class="text-sm text-muted">${desc}</div>
+                </div>
+                <div style="width:42px;height:24px;background:var(--c-accent);border-radius:12px;cursor:pointer;position:relative" onclick="toast('Setting toggled')">
+                  <div style="position:absolute;right:3px;top:3px;width:18px;height:18px;background:white;border-radius:50%"></div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="card-title mb-12">👤 My Profile</div>
+            <div style="text-align:center;padding:16px 0">
+              <div class="user-avatar" style="width:64px;height:64px;font-size:24px;margin:0 auto 12px">BS</div>
+              <div class="fw-600">Brian Ssekiranda</div>
+              <div class="text-sm text-muted">Super Admin</div>
+              <div class="badge badge-purple mt-8">Super Admin</div>
+            </div>
+            <div class="form-group"><label class="form-label">Display Name</label><input class="form-input" value="Brian Ssekiranda"></div>
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" value="admin@skenyamotors.ug"></div>
+            <button class="btn btn-secondary btn-sm w-100" onclick="toast('Password changed')">Change Password</button>
+          </div>
+          <div class="card">
+            <div class="card-title mb-12">🌿 System</div>
+            <div class="form-group"><label class="form-label">Language</label><select class="form-select"><option>English</option><option>العربية</option></select></div>
+            <div class="form-group"><label class="form-label">Timezone</label><select class="form-select"><option>Africa/Kampala (UTC+3)</option></select></div>
+            <div class="form-group"><label class="form-label">Date Format</label><select class="form-select"><option>YYYY-MM-DD</option><option>DD/MM/YYYY</option></select></div>
+            <button class="btn btn-primary btn-sm" onclick="toast('System settings saved')">Save</button>
+          </div>
+          <div class="card" style="background:var(--c-red-soft);border-color:var(--c-red)">
+            <div class="card-title mb-8" style="color:var(--c-red)">⚠️ Danger Zone</div>
+            <div class="text-sm text-muted mb-12">These actions cannot be undone.</div>
+            <button class="btn btn-danger btn-sm" onclick="toast('Reset cancelled - demo mode','error')">Reset All Data</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== MODALS ===== -->
+
+<!-- Add Customer Modal -->
+<div class="modal-overlay" id="add-customer-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add New Customer</div>
+      <button class="modal-close" onclick="closeModal('add-customer-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Full Name *</label><input id="new-cust-name" class="form-input" placeholder="Mohammed Al-Hassan"></div>
+        <div class="form-group"><label class="form-label">Phone Number *</label><input id="new-cust-phone" class="form-input" placeholder="+971 50 123 4567"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Email Address</label><input id="new-cust-email" class="form-input" placeholder="customer@email.com"></div>
+        <div class="form-group"><label class="form-label">City</label><input id="new-cust-city" class="form-input" placeholder="Dubai"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Customer Type</label>
+        <select id="new-cust-type" class="form-select"><option>Regular</option><option>VIP</option><option>New</option><option>Corporate</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Notes</label><textarea class="form-input" rows="2" placeholder="Any notes about this customer..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('add-customer-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addCustomer()">Add Customer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Detail Modal -->
+<div class="modal-overlay" id="customer-detail-modal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <div class="modal-title">Customer Profile</div>
+      <button class="modal-close" onclick="closeModal('customer-detail-modal')">✕</button>
+    </div>
+    <div class="modal-body" id="customer-detail-content"></div>
+  </div>
+</div>
+
+<!-- Vehicle Detail Modal -->
+<div class="modal-overlay" id="vehicle-detail-modal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <div class="modal-title">Vehicle Profile</div>
+      <button class="modal-close" onclick="closeModal('vehicle-detail-modal')">✕</button>
+    </div>
+    <div class="modal-body" id="vehicle-detail-content"></div>
+  </div>
+</div>
+
+<!-- Add Job Modal -->
+<div class="modal-overlay" id="add-job-modal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <div class="modal-title">Create Job Card</div>
+      <button class="modal-close" onclick="closeModal('add-job-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Vehicle *</label>
+          <select id="jc-vehicle" class="form-select">
+            <option value="">Select vehicle</option>
+            <option value="V001">UAA 001A — Isuzu FVR 34 Long Haul Truck</option>
+            <option value="V002">UBA 123B — Toyota Hilux Surf 4x4</option>
+            <option value="V003">UAB 456C — Hino 500 Series FC Cargo Truck</option>
+            <option value="V004">UCA 789D — Mitsubishi Canter 3.5T Light Truck</option>
+            <option value="V005">UAC 321E — Scania R500 Heavy Hauler</option>
+            <option value="V006">UBB 654F — Toyota LC79 Series Pickup</option>
+            <option value="V007">UAD 999G — MAN TGS 26.480 Tipper Truck</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Service Type *</label>
+          <select id="jc-type" class="form-select">
+            <option value="">Select service</option>
+            <option>Minor Service</option>
+            <option>Major Service</option>
+            <option>Engine Overhaul</option>
+            <option>Brake Overhaul</option>
+            <option>Suspension Repair</option>
+            <option>Gearbox Repair</option>
+            <option>Differential Service</option>
+            <option>Turbocharger Replacement</option>
+            <option>Tyre Change (Full Set)</option>
+            <option>Electrical Fault Diagnosis</option>
+            <option>Chassis Inspection</option>
+            <option>Pre-Trip Inspection</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Priority</label>
+          <select id="jc-priority" class="form-select"><option>Normal</option><option>High</option><option>Urgent</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Assign Mechanic</label>
+          <select id="jc-mechanic" class="form-select">
+            <option value="">Unassigned</option>
+            <option value="4">Yusuf Nasser</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Bay</label>
+          <select class="form-select"><option>Unassigned</option><option>Bay 1</option><option>Bay 2</option><option>Bay 3</option><option>Bay 4</option><option>Bay 5</option><option>Bay 6</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Estimated Cost (AED)</label><input class="form-input" type="number" placeholder="0.00"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Notes / Customer Complaint</label>
+        <textarea id="jc-notes" class="form-input" rows="3" placeholder="Describe the issue or service required..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('add-job-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="createJobCard()">Create Job Card</button>
+    </div>
+  </div>
+</div>
+
+<!-- Job Detail Modal -->
+<div class="modal-overlay" id="job-detail-modal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <div class="modal-title">Job Card Details</div>
+      <button class="modal-close" onclick="closeModal('job-detail-modal')">✕</button>
+    </div>
+    <div class="modal-body" id="job-detail-content"></div>
+  </div>
+</div>
+
+<!-- Sales Vehicle Modal -->
+<div class="modal-overlay" id="sales-detail-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Vehicle Details</div>
+      <button class="modal-close" onclick="closeModal('sales-detail-modal')">✕</button>
+    </div>
+    <div class="modal-body" id="sales-vehicle-content"></div>
+  </div>
+</div>
+
+<!-- Invoice Detail Modal -->
+<div class="modal-overlay" id="invoice-detail-modal">
+  <div class="modal modal-xl">
+    <div class="modal-header">
+      <div class="modal-title">Invoice Preview</div>
+      <div class="d-flex gap-8">
+        <button class="btn btn-secondary btn-sm" onclick="toast('Invoice printed')">🖨️ Print</button>
+        <button class="btn btn-secondary btn-sm" onclick="toast('Invoice downloaded')">⬇️ PDF</button>
+        <button class="modal-close" onclick="closeModal('invoice-detail-modal')">✕</button>
+      </div>
+    </div>
+    <div class="modal-body" id="invoice-preview-content"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+// AI Chat
+function aiChat() {
+  const input = $('ai-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  
+  const chat = $('ai-chat-msgs');
+  
+  // User message
+  chat.innerHTML += `
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <div style="background:var(--c-accent-soft);border:1px solid var(--c-border);border-radius:10px;padding:10px 14px;font-size:13.5px;max-width:80%">${msg}</div>
+      <div class="user-avatar" style="width:28px;height:28px;font-size:11px;flex-shrink:0">You</div>
+    </div>`;
+  
+  input.value = '';
+  
+  // AI responses
+  const responses = {
+    'top revenue': 'Engine Overhaul (30%) and Major Service (26%) are your highest revenue generators at Skenya Motors. Scania and Isuzu FVR overhauls average UGX 12M+ each. Consider dedicated heavy-haul bays to serve the Kampala-Mbarara corridor fleet owners.',
+    'fleet': 'Nantongo Transport Ltd (8 trucks) and Mukasa Robert (5 trucks) are your top fleet clients. Nantongo hasn\'t had a follow-up call in 10 days — their Scania R500 overhaul is ongoing. Consider offering a monthly retainer fleet contract.',
+    'stock': 'Critical: Brake Linings (6 sets, 60% below minimum), Coolant (8L, 73% below minimum), Turbo Kits (1 unit). Order from Mombasa Auto Parts this week — lead time is 3-4 days via Mombasa-Kampala road.',
+    'revenue': 'Q4 revenue: UGX 831M — up 19% vs Q3. Best month: December (UGX 105M). Your profit margin is 28.5%, well above the East Africa automotive workshop average of 18%. Corporate fleet accounts drive 62% of revenue.',
+    'default': 'Based on your Skenya Motors data, business is growing strongly. Revenue up 19%, corporate fleet bookings increased by 3 new accounts this quarter, and workshop utilisation is at 82%. Would you like insights on fleet retention, parts pricing, or route-based demand patterns?'
+  };
+  
+  const lower = msg.toLowerCase();
+  const reply = Object.entries(responses).find(([k]) => lower.includes(k))?.[1] || responses.default;
+  
+  setTimeout(() => {
+    chat.innerHTML += `
+      <div style="display:flex;gap:10px">
+        <div style="width:28px;height:28px;border-radius:8px;background:var(--c-accent);display:grid;place-items:center;color:white;font-size:12px;flex-shrink:0">✦</div>
+        <div style="background:white;border:1px solid var(--c-border);border-radius:10px;padding:10px 14px;font-size:13.5px;max-width:80%;line-height:1.6">${reply}</div>
+      </div>`;
+    chat.scrollTop = chat.scrollHeight;
+  }, 700);
+}
+
+$('ai-input')?.addEventListener('keydown', e => { if (e.key === 'Enter') aiChat(); });
+</script>
+</body>
+</html>
